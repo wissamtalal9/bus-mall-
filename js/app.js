@@ -1,48 +1,38 @@
 'use strict';
 
 let imgArray = [
-  '1.jpg',
-  '2.jpg',
-  '3.jpg',
-  '4.jpg',
-  '5.jpg',
-
-  '6.jpg',
-  '7.jpg',
-  '8.jpg',
-  '9.jpg',
-  '10.jpg',
-
-  '11.jpg',
-  '12.jpg',
-  '13.jpg',
-  '14.jpg',
-  '15.jpg',
+  '1.jpg','2.jpg','3.jpg','4.jpg','5.jpg',
+  '6.jpg','7.jpg','8.jpg','9.jpg','10.jpg',
+  '11.jpg','12.jpg','13.jpg','14.jpg','15.jpg',
 ];
 
-// Constructor
-// New obj
-// prototype render
-// Random function
-// get by id
-// Event Handler
+// Call Element from index.html
+const imageSection = document.getElementById('imageSection');
 
+const Stop_button = document.getElementById('stop_btn');
+const divBtn = document.getElementById('btn_div');
+const ul = document.getElementById('ul_result');
+
+// let oneImage = document.getElementById('first_image');
+// let twoImage = document.getElementById('second_image');
+// let threeImage = document.getElementById('thirs_image');
+
+
+let firstImage = 0;
+let secondImage = 0;
+let thirdImage = 0;
 let all = [];
 let counter = 25;
 let numberOfRound = 10;
 let arr = ['**Name of image**', '**Showing**', '**Clicked Numer**', '**Date Of Clicked**'];
 
-
-
-const imageSection = document.getElementById('imageSection');
-let leftImage = document.getElementById('leftImage');
-let MiddleImage = document.getElementById('MiddleImag');
-let rightImage = document.getElementById('rightImage');
-const buttonshow = document.getElementById('btnresult');
-const divBtn = document.getElementById('divBtn');
   
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
-function Rest(name, imageSrc, show, click, tim) {
+// Concrtuctor for return info image prototype
+function Rest(name, imageSrc) {
   this.name = name;
   this.image = imageSrc;
   this.show = 0;
@@ -54,22 +44,25 @@ function Rest(name, imageSrc, show, click, tim) {
 
 Rest.all = [];
 
-
-for (let i = 0; i < imgArray.length; i++) {
-  new Rest(imgArray[i].split('.')[0], imgArray[i]);
-
-}
-function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-
+// Render Fnction 
 function render() {
+  
+  do {
+    firstImage = getRandomNumber(0, imgArray.length - 1);
+    secondImage = getRandomNumber(0, imgArray.length - 1);
+    thirdImage = getRandomNumber(0, imgArray.length - 1);
 
-  let leftRandom = getRandomNumber(0, imgArray.length - 1);
-  let MiddleImageRandom = getRandomNumber(0, imgArray.length - 1);
-  let rightRandom = getRandomNumber(0, imgArray.length - 1);
+  } while (firstImage === secondImage || firstImage === thirdImage || secondImage === thirdImage
+          || firstImage === first_image || firstImage === second_image ||  firstImage === third_image
+          || secondImage === first_image || secondImage === second_image || secondImage === third_image
 
+          || thirdImage === first_image || thirdImage === second_image || thirdImage === third_image
+  );
+          first_image = first;
+          second_image = secondImage;
+          third_image = thirdImage;
+
+          counter++;
 
   leftImage.src = './img/' + Rest.all[leftRandom].image;
   // leftImage.setAttribute('src', leftImage.src = './img/' + Rest.all[0].image);
@@ -83,6 +76,12 @@ function render() {
 
 
 }
+for (let i = 0; i < imgArray.length; i++) {
+  new Rest(imgArray[i].split('.')[0], imgArray[i]);
+
+}
+
+
 
 buttonshow.addEventListener('click', btnhandler);
 function btnhandler(e) {
@@ -103,13 +102,13 @@ function clickHandler(e) {
   if ((e.target.id === 'leftImage' || e.target.id === 'rightImage' || e.target.id === 'MiddleImag') && counter > 0) {
     render();
     counter--;
-    //let dates = new Date;
-    //  console.log(dates);
+
+    
 
   }
 }
 
-render();
+// render();
 // console.log(Rest.all);
 
 
