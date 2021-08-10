@@ -36,22 +36,20 @@ function getRandomNumber(min, max) {
 }
 
 // The Rest function
-function Rest(name, imageSrc) {
+function Rest(name, imageSrc,show = 0,  click = 0 ) {
   this.name = name;
   this.image = imageSrc;
-  this.click = 0;
-  this.show = 0;
-  this.dates = new Date();
+  this.show = show;
+  this.click = click;
+
   Rest.all.push(this);
 }
 Rest.all = [];
 
+getData()
 
-// Return all images in the array
-for (let i = 0; i < imgArray.length; i++) {
-  new Rest(imgArray[i].split('.')[0], imgArray[i]);
-}
-//console.log(Rest.all);
+
+
 
 // Render Function 
 function render() {
@@ -67,7 +65,7 @@ function render() {
   || third_image_random === second_image_random
   || images.includes(first_image_random)
   || images.includes(second_image_random)
-    || images.includes(third_image_random)
+  || images.includes(third_image_random)
 
   );
   images = [first_image_random, second_image_random, third_image_random];
@@ -82,7 +80,15 @@ function render() {
   Rest.all[second_image_random].show++;
   Rest.all[third_image_random].show++;
 
+  localStorage.data = JSON.stringify(Rest.all);
+ // console.log(data);
+
+
 }
+Rest.prototype.getName = function() {
+  console.log('test')
+}
+
 render();
 console.log(Rest.all);
 // console.log(images)
@@ -112,13 +118,13 @@ imageSection.addEventListener('click', thehandlerImageClick);
 function thehandlerImageClick(event) {
   if ((event.target.id === 'first_Image' || event.target.id === 'second_Image' || event.target.id === 'third_Image') && counter < number_of_round) {
 
-    if (event.target.id = 'first_Image') {
+    if (event.target.id == 'first_Image') {
       Rest.all[first_image_random].click++;
     }
-    else if (event.target.id = 'second_Image') {
+    else if (event.target.id == 'second_Image') {
       Rest.all[second_image_random].click++;
     }
-    else if (event.target.id = 'third_Image') {
+    else if (event.target.id == 'third_Image') {
       Rest.all[third_image_random].click++;
     }
     else {
@@ -126,36 +132,34 @@ function thehandlerImageClick(event) {
     }
     render();
     counter++;
+    console.log(Rest.all);
   }
   else if (counter >= number_of_round) {
-    show_chart.addEventListener('click', lisnhandler)
-    function lisnhandler(e) {
-
-      // call functions for chart result
+    // call functions for chart result
+    myChart.addEventListener('click', letcall)
+    function letcall() {
       showResult();
-    }
-    show_result.addEventListener('click', resulthandler)
-    function resulthandler() {
+
       chartResult();
 
     }
-
   }
 }
-function selectbutton (){
-  if (show_chart.click){
-    showResult.removeEventListener('click',resulthandler);
-    show_result.hidden();
-    showResult.hidden();
-  }
-  else if (show_result.click){
-    show_chart.removeEventListener('click', lisnhandler)
-    show_chart.hidden();
-    chartResult.hidden();
-  }
-  
-}
+// function selectbutton (){
+//   if (show_chart.click){
+//     showResult.removeEventListener('click',resulthandler);
+//     show_result.hidden();
+//     showResult.hidden();
+//   }
+//   else if (show_result.click){
+//     show_chart.removeEventListener('click', lisnhandler)
+//     show_chart.hidden();
+//     chartResult.hidden();
+//   }
 
+// }
+
+show_chart.addEventListener('click', showResult)
 
 function showResult() {
   var br = document.createElement("br");
@@ -165,12 +169,15 @@ function showResult() {
   for (let i = 0; i < Rest.all.length; i++) {
 
     let list_item = document.createElement('li');
-    list_item.textContent = 'name ' + Rest.all[i].name + ' show ' + Rest.all[i].show + ' click ' + Rest.all[i].click+'showing date '+Rest.all[i].dates+br;
+    list_item.textContent = 'name ' + Rest.all[i].name + ' show ' + Rest.all[i].show + ' click ' + Rest.all[i].click + 'showing date ' + br;
     orderlist.appendChild(list_item);
   }
-  console.log(Rest.all)
+ // console.log(Rest.all)
+  show_chart.removeEventListener('click', showResult);
 }
 
+
+show_result.addEventListener('click', chartResult)
 function chartResult() {
 
   let name_array = [];
@@ -191,18 +198,18 @@ function chartResult() {
     data: {
       labels: name_array,
       datasets: [{
-        label: '# Clicks',
+        label: '#Clicks',
         data: click_array,
         backgroundColor: 'rgba(153, 102, 255, 1)',
 
-        borderColor: ['rgba(54, 162, 235, 1)'],
+        borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 2
       },
       {
-        label: '# Show',
+        label: '#Show',
         data: show_array,
         backgroundColor: 'rgba(255, 206, 86, 1)',
-        borderColor: ['rgba(255, 206, 86, 1)'],
+        borderColor: 'rgba(255, 206, 86, 1)',
         borderWidth: 2
       }]
     },
@@ -218,5 +225,44 @@ function chartResult() {
       }
     }
   });
+  show_result.removeEventListener('click', chartResult)
 }
 
+
+
+//JSON Storage All value from linral object to conctructor object
+
+function getData() {
+  if( localStorage.data ) {
+    let data = JSON.parse( localStorage.data );
+    for( let i = 0; i < data.length; i++ ) {
+      new Rest( data[i].name, data[i].image, data[i].shown, data[i].click );
+    }
+  } else {
+    for( let i = 0; i < imgArray.length; i++ ) {
+      new Rest( imgArray[i].split( '.' )[0], imgArray[i] );
+    }
+  }
+}
+console.log(localStorage.data);
+
+
+// let obj = {
+//   name: 'ahmed',
+//   age: 25
+// }
+
+// // console.log(typeof JSON.stringify(obj))
+// // console.log(typeof obj)
+
+// localStorage.setItem('ClassCode', '201d34')
+// localStorage.data = JSON.stringify(obj)
+// localStorage.data1 = 'Emad'
+
+// // console.log(['Ahmed', 'Amer', 'Abrar', 'Abdullah'])
+// // console.log(localStorage.data)
+
+// // let newObj = localStorage.getItem('data')
+// let newObj = localStorage.data;
+// let convertedObj = JSON.parse(newObj)
+// console.log(convertedObj.name);
