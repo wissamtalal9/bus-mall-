@@ -4,6 +4,7 @@ body {
   width: 960px;
   margin: auto;
   font-family: 'Roboto', sans-serif;
+  background-color: #ccc;
 }
 
 .container {
@@ -158,8 +159,4 @@ img {
   &:hover {
     opacity: 1;
   }
-}
-
-li {
-  color: #fff;
 }
