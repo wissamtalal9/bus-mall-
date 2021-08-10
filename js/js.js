@@ -8,6 +8,10 @@ let imgArray = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg',
 
 
 const imageSection = document.getElementById('imageSection');
+const ol_result = document.getElementById('ol_result');
+
+const show_chart = document.getElementById('show_chart');
+const show_result = document.getElementById('show_result');
 
 let first_image = document.getElementById('first_Image');
 let second_image = document.getElementById('second_Image');
@@ -22,9 +26,7 @@ let number_of_round = 25;
 
 // The Arrays
 
-let name_array = [];
-let show_array = [];
-let click_array = [];
+
 let all = [];
 let images = [];
 
@@ -39,6 +41,7 @@ function Rest(name, imageSrc) {
   this.image = imageSrc;
   this.click = 0;
   this.show = 0;
+  this.dates = new Date();
   Rest.all.push(this);
 }
 Rest.all = [];
@@ -52,18 +55,24 @@ for (let i = 0; i < imgArray.length; i++) {
 
 // Render Function 
 function render() {
-  first_image_random = getRandomNumber(0, imgArray.length - 1);
-  let second_image_random;
-  let third_image_random;
 
   do {
+    first_image_random = getRandomNumber(0, imgArray.length - 1);
     second_image_random = getRandomNumber(0, imgArray.length - 1);
     third_image_random = getRandomNumber(0, imgArray.length - 1);
-  } while (first_image_random === second_image_random
+  }
+
+  while (first_image_random === second_image_random
   || first_image_random === third_image_random
-    || third_image_random === second_image_random
+  || third_image_random === second_image_random
+  || images.includes(first_image_random)
+  || images.includes(second_image_random)
+    || images.includes(third_image_random)
 
   );
+  images = [first_image_random, second_image_random, third_image_random];
+  console.log(images)
+
 
   first_image.src = './img/' + Rest.all[first_image_random].image;
   second_image.src = './img/' + Rest.all[second_image_random].image;
@@ -76,8 +85,25 @@ function render() {
 }
 render();
 console.log(Rest.all);
+// console.log(images)
 
 function getRandomNumber(min, max) {
+  // If I wanted to use Includes in the render can I use this from generate random
+  // let random;
+  // let allow;
+
+  // do {
+  //   random = Math.floor(Math.random() * (max - min + 1) + min);
+  //   allow = true;
+
+  //   for (let i = 0; i < images.length; i++) {
+  //     if (random === images[i]) {
+  //       allow = false;
+  //     }
+  //   }
+  // }
+  //   while (allow)
+  //   return random;
   return Math.floor(Math.random() * (max - min + 1) + min);
 
 }
@@ -102,13 +128,13 @@ function thehandlerImageClick(event) {
     counter++;
   }
   else if (counter >= number_of_round) {
-    button.addEventListener('click', lisnhandler)
+    show_chart.addEventListener('click', lisnhandler)
     function lisnhandler(e) {
 
       // call functions for chart result
       showResult();
     }
-    button.addEventListener('click',resulthandler)
+    show_result.addEventListener('click', resulthandler)
     function resulthandler() {
       chartResult();
 
@@ -116,21 +142,41 @@ function thehandlerImageClick(event) {
 
   }
 }
-function showResult() {
+function selectbutton (){
+  if (show_chart.click){
+    showResult.removeEventListener('click',resulthandler);
+    show_result.hidden();
+    showResult.hidden();
+  }
+  else if (show_result.click){
+    show_chart.removeEventListener('click', lisnhandler)
+    show_chart.hidden();
+    chartResult.hidden();
+  }
+  
+}
 
-  let orderlist = document.createElement('ul');
+
+function showResult() {
+  var br = document.createElement("br");
+  const orderlist = document.createElement('ul');
   ol_result.appendChild(orderlist);
 
-  for (let i = 0; i < imgArray.length; i++) {
+  for (let i = 0; i < Rest.all.length; i++) {
 
     let list_item = document.createElement('li');
-    list_item.textContent ='name '+Rest.all[i].name +' show '+Rest.all[i].show +' click '+ Rest.all[i].click;
-    ol_result.appendChild(list_item);
+    list_item.textContent = 'name ' + Rest.all[i].name + ' show ' + Rest.all[i].show + ' click ' + Rest.all[i].click+'showing date '+Rest.all[i].dates+br;
+    orderlist.appendChild(list_item);
   }
   console.log(Rest.all)
 }
 
 function chartResult() {
+
+  let name_array = [];
+  let show_array = [];
+  let click_array = [];
+
   for (let i = 0; i < Rest.all.length; i++) {
     name_array.push(Rest.all[i].name);
     show_array.push(Rest.all[i].show);
@@ -173,3 +219,4 @@ function chartResult() {
     }
   });
 }
+
