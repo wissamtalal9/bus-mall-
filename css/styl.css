@@ -160,3 +160,22 @@ img {
     opacity: 1;
   }
 }
+.ul_button {
+  /* margin-left: 20px; */
+}
+
+.ul_button  li button {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.ul_button  li button button:hover {
+  background-color: #111;
+}
+
+button {
+  margin-left: 54px;
+}

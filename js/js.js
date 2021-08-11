@@ -48,9 +48,6 @@ Rest.all = [];
 
 getData()
 
-
-
-
 // Render Function 
 function render() {
 

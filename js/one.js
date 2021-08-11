@@ -1,12 +1,12 @@
 'use strict';
+const local_Storag
+if (localStorage.data) {
+   local_Storag = JSON.parse(localStorage.data);
 
-if (localStorage.cats) {
-  const catsFromLS = JSON.parse(localStorage.cats);
-  // catsFromLS is now an array of generic objects
-  for (let i = 0; i < catsFromLS.length; i++) {
-    new Cat(catsFromLS[i].name);
-    allCats[i].render();
+  for (let i = 0; i < local_Storag.length; i++) {
+    new Rest (local_storage[i].name);
+    Rest.name[i].render();
   }
 }
 
-catform.addEventListener('submit', handleCatSubmit);
+got_form.addEventListener('submit', handleCatSubmit);
