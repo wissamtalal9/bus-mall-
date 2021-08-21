@@ -157,18 +157,27 @@ function thehandlerImageClick(event) {
 // }
 
 show_chart.addEventListener('click', showResult)
-
 function showResult() {
   var br = document.createElement("br");
   const orderlist = document.createElement('ul');
   ol_result.appendChild(orderlist);
+  let data = JSON.parse( localStorage.data );
 
-  for (let i = 0; i < Rest.all.length; i++) {
-
+  for( let i = 0; i < data.length; i++ ) {
     let list_item = document.createElement('li');
-    list_item.textContent = 'name ' + Rest.all[i].name + ' show ' + Rest.all[i].show + ' click ' + Rest.all[i].click + 'showing date ' + br;
-    orderlist.appendChild(list_item);
-  }
+
+     list_item.textContent = ('The name: '+ data[i].name +' show: '+ data[i].show +'click: '+ data[i].click );
+     orderlist.appendChild(list_item);
+    }
+ 
+ 
+ 
+  // for (let i = 0; i < Rest.all.length; i++) {
+
+  //   let list_item = document.createElement('li');
+  //   list_item.textContent = 'name ' + data.name+ ' show ' + Rest.all[i].show + ' click ' + Rest.all[i].click +br+br;
+  //   orderlist.appendChild(list_item);
+  // }
  // console.log(Rest.all)
   show_chart.removeEventListener('click', showResult);
 }

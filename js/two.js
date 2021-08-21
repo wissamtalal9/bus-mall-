@@ -1,17 +1,17 @@
-'use strict';
+// 'use strict';
 
-const catbutton = document.getElementById('catbutton');
+// const catbutton = document.getElementById('catbutton');
 
-const handleCatButtonClick = function(){
-  const catsFromLS = JSON.parse(localStorage.cats);
-  console.log('allCats array after retrieving from local storage', catsFromLS);
-  for (let i = 0; i < catsFromLS.length; i++){
-    const newCat = new Cat(catsFromLS[i].name);
-    newCat.render();
-  }
-  console.log('allCats array after reinstantiating through our Cat constructor', allCats);
-};
+// const handleCatButtonClick = function(){
+//   const catsFromLS = JSON.parse(localStorage.cats);
+//   console.log('allCats array after retrieving from local storage', catsFromLS);
+//   for (let i = 0; i < catsFromLS.length; i++){
+//     const newCat = new Cat(catsFromLS[i].name);
+//     newCat.render();
+//   }
+//   console.log('allCats array after reinstantiating through our Cat constructor', allCats);
+// };
 
-catbutton.addEventListener('click', handleCatButtonClick);
+// catbutton.addEventListener('click', handleCatButtonClick);
 
-console.log(newVar);
+// console.log(newVar);
